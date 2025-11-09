@@ -23,10 +23,12 @@ export interface GetNoteResponse {
 export async function fetchNotes(
   query?: string,
   page: number = 1,
-  perPage: number = 10
+  perPage: number = 10,
+  tag?: string
 ): Promise<GetNoteResponse> {
   const params: Record<string, any> = { page, perPage };
   if (query) params.search = query;
+  if (tag) params.tag = tag;
 
   const response = await api.get<GetNoteResponse>('/notes', { params });
   return response.data;

@@ -32,7 +32,6 @@ export default function NoteList({ notes }: NoteListProps) {
           <div className={css.footer}>
             {note.tag && <span className={css.tag}>{note.tag}</span>}
 
-            {/* ✅ Додане посилання на деталі нотатки */}
             <Link href={`/notes/${note.id}`} className={css.link}>
               View details
             </Link>
