@@ -1,4 +1,5 @@
 "use client";
+
 import Modal from "@/components/Modal/Modal";
 import css from "./NoteDetails.module.css";
 import { useParams, useRouter } from "next/navigation";
@@ -7,39 +8,40 @@ import { fetchNoteById } from "@/lib/api";
 import Loading from "@/app/loading";
 
 export default function NotePreview() {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams();
+  const id = params?.id;
   const router = useRouter();
+
   const closeModal = () => {
     router.back();
   };
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["note", id],
-    queryFn: () => fetchNoteById(id),
+    queryFn: () => fetchNoteById(id!),
+    enabled: !!id,
     refetchOnMount: false,
   });
 
   return (
-    <>
-      <Modal onClose={closeModal}>
-        {isLoading && <Loading />}
-        {isError && <p> Could not fetch note details.</p>}
-        {data && (
-          <div className={css.container}>
-            <div className={css.item}>
-              <div className={css.header}>
-                <h2>{data?.title}</h2>
-              </div>
-              <p className={css.content}>{data?.content}</p>
-              <p className={css.date}>{data?.createdAt}</p>
+    <Modal onClose={closeModal}>
+      {isLoading && <Loading />}
+      {isError && <p>Could not fetch note details.</p>}
+      {data && (
+        <div className={css.container}>
+          <div className={css.item}>
+            <div className={css.header}>
+              <h2>{data.title}</h2>
             </div>
-            <span className={css.tag}>{data?.tag}</span>
+            <p className={css.content}>{data.content}</p>
+            <p className={css.date}>{data.createdAt}</p>
           </div>
-        )}
-        <button onClick={closeModal} className={css.backBtn}>
-          Close
-        </button>
-      </Modal>
-    </>
+          <span className={css.tag}>{data.tag}</span>
+        </div>
+      )}
+      <button onClick={closeModal} className={css.backBtn}>
+        Close
+      </button>
+    </Modal>
   );
 }
