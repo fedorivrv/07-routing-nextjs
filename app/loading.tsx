@@ -1,7 +1,3 @@
-export default function NotesLoading() {
-  return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
-      <p>Loading, please wait...</p>
-    </div>
-  );
+export default function Loading() {
+  return <p>Loading, please wait...</p>;
 }

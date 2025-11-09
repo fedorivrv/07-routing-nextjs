@@ -10,7 +10,7 @@ import Pagination from "@/components/Pagination/Pagination";
 import Modal from "@/components/Modal/Modal";
 import NoteForm from "@/components/NoteForm/NoteForm";
 
-import Error from "@/components/ErrorMessege/ErrorMessege";
+import Error from "./error";
 import Loading from "@/app/loading";
 interface NotesClientProps {
   category: string | undefined;
@@ -51,13 +51,11 @@ export default function NotesClient({ category }: NotesClientProps) {
         </button>
       </header>
       {isLoading && <Loading />}
-      {isError && <Error message={String(error)} />}
+      {isError && <Error error={error} />}
       {data && <NoteList notes={data.notes} />}
       {isModalOpen && (
         <Modal onClose={closeModal}>
-          <NoteForm onCancel={closeModal}       
-                    onSuccess={closeModal}   
-          />  
+          <NoteForm onClose={closeModal} />
         </Modal>
       )}
     </div>
